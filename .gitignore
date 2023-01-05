@@ -4,7 +4,7 @@
 
 # Xcode
 #
-build/
+**/build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -20,7 +20,8 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-ios/.xcode.env.local
+**/ios/.xcode.env.local
+client/ios/build/
 
 # Android/IntelliJ
 #
@@ -37,6 +38,7 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+**/node_modules/
 
 # BUCK
 buck-out/
@@ -60,5 +62,7 @@ buck-out/
 *.jsbundle
 
 # Ruby / CocoaPods
-/ios/Pods/
-/vendor/bundle/
+**/ios/Pods/
+**/vendor/bundle/
+
+**/.vscode/
