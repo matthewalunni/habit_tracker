@@ -1,6 +1,6 @@
 # Habit Tracker
 
-A simple application for tracking and improving your daily habits.
+A simple application for tracking and improving your daily habits. This is a habit tracker mobile application built with React Native and powered by D3.js for data visualization. It allows users to track their habits and see their progress over time. The application is currently in development.
 
 ## Features
 
@@ -9,7 +9,14 @@ A simple application for tracking and improving your daily habits.
 - View your progress over time
 - Set goals and track progress towards achieving them
 
-## Getting Started
+## Viewing the Graphs
+
+- Run the app, register a new user, and navigate to the "Metrics" tab.
+- To view the code, see `client/components/Graph.tsx`.
+
+| Weekly Progress                               | Monthly Progress                                | Yearly Progress                               |
+| --------------------------------------------- | ----------------------------------------------- | --------------------------------------------- |
+| ![Weekly Progress](https://images/weekly.png) | ![Monthly Progress](https://images/monthly.png) | ![Yearly Progress](https://images/yearly.png) |
 
 ### Prerequisites
 
@@ -28,14 +35,15 @@ A simple application for tracking and improving your daily habits.
 
 ### Run the development server:
 
-- `npm run dev`
-- The app will be running at `http://localhost:3000`.
+- `npm run ios`
+- The app will be running at `http://localhost:8081`.
 
 ## Built With
 
-- Node.js
-- React Native
-- Flask
+- [Node.js](https://nodejs.org/en/)
+- [React Native](https://facebook.github.io/react-native/)
+- [D3.js](https://d3js.org/)
+- [Flask](http://flask.pocoo.org/)
 
 ## Contributing
 
