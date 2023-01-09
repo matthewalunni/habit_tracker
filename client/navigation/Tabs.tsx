@@ -19,7 +19,13 @@ export default () => {
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="Metrics" component={Metrics} />
+      <Tab.Screen
+        name="Metrics"
+        component={Metrics}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Tab.Screen
         name="Home"
         component={Home}

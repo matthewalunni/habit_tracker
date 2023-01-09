@@ -76,7 +76,13 @@ export default () => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.exit}>
-          <Icon.Button name="close" backgroundColor="transparent" size={25} />
+          <Icon.Button
+            name="close"
+            backgroundColor="transparent"
+            underlayColor="transparent"
+            size={25}
+            onPress={() => navigation.navigate('Tabs')}
+          />
         </View>
         {item.icon && <Icon name={item.icon} size={100} color={'white'} />}
         <View>

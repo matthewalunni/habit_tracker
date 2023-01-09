@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AddHabitStack from './navigation/AddHabitStack';
+import LoginStack from './navigation/LoginStack';
 
 const App = () => {
+  const [isSignedIn, setIsSignedIn] = useState(true);
+
   return (
     <NavigationContainer>
-      <AddHabitStack />
+      {isSignedIn ? (
+        <AddHabitStack />
+      ) : (
+        <LoginStack setIsSignedIn={setIsSignedIn} />
+      )}
     </NavigationContainer>
   );
 };
