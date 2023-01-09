@@ -14,9 +14,9 @@ A simple application for tracking and improving your daily habits. This is a hab
 - Run the app, register a new user, and navigate to the "Metrics" tab.
 - To view the code, see `client/components/Graph.tsx`.
 
-| Weekly Progress                               | Monthly Progress                                | Yearly Progress                               |
-| --------------------------------------------- | ----------------------------------------------- | --------------------------------------------- |
-| ![Weekly Progress](https://images/weekly.png) | ![Monthly Progress](https://images/monthly.png) | ![Yearly Progress](https://images/yearly.png) |
+| Weekly Progress                                                                                         | Monthly Progress                                                                                          | Yearly Progress                                                                                         |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| ![Weekly Progress](https://github.com/matthewalunni/habit_tracker/blob/main/images/weekly.png?raw=true) | ![Monthly Progress](https://github.com/matthewalunni/habit_tracker/blob/main/images/monthly.png?raw=true) | ![Yearly Progress](https://github.com/matthewalunni/habit_tracker/blob/main/images/yearly.png?raw=true) |
 
 ### Prerequisites
 
