@@ -19,10 +19,10 @@ export type DataPoint = {
 
 // NOTE: Dates are in the ISO 8601 format since react-native-reanimated doesn't support Date objects yet.
 export const weeklyData: DataPoint[] = [
-  {date: '2000-02-01T05:00:00.000Z', value: 0.47},
-  {date: '2000-02-02T05:00:00.000Z', value: 0.16},
-  {date: '2000-02-03T05:00:00.000Z', value: 0.25},
-  {date: '2000-02-04T05:00:00.000Z', value: 0.35},
+  {date: '2000-02-01T05:00:00.000Z', value: 0},
+  {date: '2000-02-02T05:00:00.000Z', value: 0},
+  {date: '2000-02-03T05:00:00.000Z', value: 0},
+  {date: '2000-02-04T05:00:00.000Z', value: 0},
   {date: '2000-02-05T05:00:00.000Z', value: 0.45},
   {date: '2000-02-06T05:00:00.000Z', value: 0.55},
   {date: '2000-02-07T05:00:00.000Z', value: 0.65},
@@ -30,10 +30,10 @@ export const weeklyData: DataPoint[] = [
   {date: '2000-02-09T05:00:00.000Z', value: 0.85},
   {date: '2000-02-10T05:00:00.000Z', value: 0.95},
   {date: '2000-02-11T05:00:00.000Z', value: 0.24},
-  {date: '2000-02-12T05:00:00.000Z', value: 0.34},
-  {date: '2000-02-13T05:00:00.000Z', value: 0.44},
-  {date: '2000-02-14T05:00:00.000Z', value: 0.54},
-  {date: '2000-02-15T05:00:00.000Z', value: 0.14},
+  {date: '2000-02-12T05:00:00.000Z', value: 0},
+  {date: '2000-02-13T05:00:00.000Z', value: 0},
+  {date: '2000-02-14T05:00:00.000Z', value: 0},
+  {date: '2000-02-15T05:00:00.000Z', value: 0},
 ];
 
 export const monthlyData: DataPoint[] = [
@@ -188,7 +188,10 @@ const LineChart: FC<LineChartProps> = ({
 
   const mostRecent = useDerivedValue(() => {
     const str_value = selectedGraph.value.mostRecent.toString().split('.')[1];
-    return `${str_value}%`;
+    if (str_value !== undefined) {
+      return `${str_value}%`;
+    }
+    return '';
   });
 
   const animatedProps = useAnimatedProps(() => {
