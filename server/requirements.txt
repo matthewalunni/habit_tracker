@@ -1,4 +1,0 @@
-Werkzeug==2.0.2
-Flask==2.0.2
-flask_sqlalchemy==3.0.2
-PyJWT==2.6.0
