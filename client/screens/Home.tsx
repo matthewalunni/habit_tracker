@@ -1,10 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from '../components/ProgressBar.comp';
 import {padding} from '../theme';
-export default () => {
-  //   const isDarkMode = useColorScheme() === 'dark';
 
+const Home = () => {
   const habits = [
     {
       name: 'Drink Water',
@@ -32,6 +31,8 @@ export default () => {
           habitName={habit.name}
           bgColor={habit.bgColor}
           progress={habit.progress}
+          onIncrement={() => {}}
+          onDecrement={() => {}}
         />
       ))}
     </View>
@@ -44,3 +45,5 @@ const styles = StyleSheet.create({
     padding: padding.md,
   },
 });
+
+export default Home;

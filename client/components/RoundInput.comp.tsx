@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, TextInputProps} from 'react-native';
 import {borderRadius} from '../theme';
-import Input from './Input';
+import Input from './Input.comp';
 
-export default (props: TextInputProps) => {
+const RoundInput = (props: TextInputProps) => {
   return <Input style={[styles.round, props.style]} {...props} />;
 };
 
@@ -16,3 +16,5 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+export default RoundInput;

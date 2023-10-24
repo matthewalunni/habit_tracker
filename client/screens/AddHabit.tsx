@@ -1,113 +1,19 @@
-import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
-import AppIntroSlider from 'react-native-app-intro-slider';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {
+  useNavigation,
   NavigationProp,
   ParamListBase,
-  useNavigation,
 } from '@react-navigation/native';
-import {TextInput} from 'react-native-gesture-handler';
-import {margin} from '../theme';
-
-type Screen = {
-  icon?: string;
-  title: string;
-  prompt_text: string;
-  placeholder?: string;
-  key_name?: string;
-};
-
-type ScreenItem = {
-  dimensions: {
-    width: number;
-    height: number;
-  };
-  index: number;
-  item: Screen;
-  separators: {
-    highlight: () => void;
-    unhighlight: () => void;
-    updateProps: (select: 'leading' | 'trailing', newProps: any) => void;
-  };
-};
-
-const walkthroughScreens: Screen[] = [
-  {
-    icon: undefined,
-    title: 'Habit Name',
-    prompt_text: "What's the name of your new habit? You can change it later.",
-    placeholder: 'Workout, Water, Floss, etc.',
-    key_name: 'habit_name',
-  },
-  {
-    icon: 'plus',
-    title: 'Educate',
-    prompt_text:
-      'See insights into your diet, and learn how to make it better. We will help you to make the most of your food.',
-  },
-  {
-    icon: 'minus',
-    title: 'Get Notified',
-    prompt_text: "Let us think about meal planning, so you don't have to.",
-  },
-  {
-    icon: 'bell',
-    title: 'Disclaimer',
-    prompt_text:
-      "Values shown in the gfd meal log app are estimates. They are not 100% accurate. This app is not a substitute for a nutritionist's advice.",
-  },
-];
-
-export default () => {
-  const navigation = useNavigation<NavigationProp<ParamListBase>>();
-  const slides = walkthroughScreens.map((screenSpec: Screen, index) => {
-    return {
-      key: `${index}`,
-      prompt_text: screenSpec.prompt_text,
-      title: screenSpec.title,
-      icon: screenSpec.icon,
-    };
-  });
-
-  const _renderItem = (screenItem: ScreenItem) => {
-    const item = screenItem.item;
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.exit}>
-          <Icon.Button
-            name="close"
-            backgroundColor="transparent"
-            underlayColor="transparent"
-            size={25}
-            onPress={() => navigation.navigate('Tabs')}
-          />
-        </View>
-        {item.icon && <Icon name={item.icon} size={100} color={'white'} />}
-        <View>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.text}>{item.prompt_text}</Text>
-          <TextInput style={styles.textInput} placeholder={item.placeholder} />
-        </View>
-      </SafeAreaView>
-    );
-  };
-
-  return (
-    <AppIntroSlider
-      data={slides}
-      renderItem={_renderItem as () => React.ReactElement}
-      showSkipButton={false}
-      showPrevButton={true}
-      showDoneButton={true}
-      showNextButton={true}
-      onDone={() => {
-        navigation.navigate('Tabs');
-      }}
-    />
-  );
-};
+import {
+  KeyboardAvoidingView,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {border, fontSize, margin, padding} from '../theme';
+import React from 'react';
+import {Screen} from '../navigation/AddHabitWalkthrough';
 
 const styles = StyleSheet.create({
   title: {
@@ -125,12 +31,13 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   textInput: {
-    fontSize: 18,
+    fontSize: fontSize.lg,
     textAlign: 'center',
-    color: 'white',
-    paddingLeft: 10,
-    paddingRight: 10,
+    color: 'tomato',
+    padding: padding.sm,
+    margin: margin.md,
     backgroundColor: 'white',
+    borderRadius: border.xxl,
   },
   image: {
     width: 100,
@@ -158,3 +65,37 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+type ScreenItem = {
+  index: number;
+  item: Screen;
+};
+
+const AddHabit = (screenItem: ScreenItem) => {
+  const {navigate} = useNavigation<NavigationProp<ParamListBase>>();
+  const {item} = screenItem;
+
+  return (
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <View style={styles.exit}>
+        <Icon.Button
+          name="close"
+          backgroundColor="transparent"
+          underlayColor="transparent"
+          size={25}
+          onPress={() => navigate('Tabs')}
+        />
+      </View>
+      {item.icon && <Icon name={item.icon} size={100} color={'white'} />}
+      {/* if item.key_name is habit_frequency, then show a datepicker */}
+
+      <View>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.text}>{item.prompt_text}</Text>
+        <TextInput style={styles.textInput} placeholder={item.placeholder} />
+      </View>
+    </KeyboardAvoidingView>
+  );
+};
+
+export default AddHabit;

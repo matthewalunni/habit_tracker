@@ -1,18 +1,19 @@
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native';
-import {register} from '../api';
-import RoundInput from '../components/RoundInput';
+import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import RoundInput from '../components/RoundInput.comp';
 import {borderRadius, fontSize} from '../theme';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {doc, setDoc} from 'firebase/firestore';
+import {auth, db} from '../firebase/firebase-config';
 
-export default (props: any) => {
+type RegisterProps = {
+  setIsSignedIn: (isSignedIn: boolean) => void;
+  setRegisterSelected: (registerSelected: boolean) => void;
+};
+
+const Register = (props: RegisterProps) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,22 +21,21 @@ export default (props: any) => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
-  const register_onClick = async () => {
-    await register(firstName, lastName, email, password)
-      .then((response: Response) => {
-        if (!response.ok) {
-          response.json().then(data => {
-            setErrorMessage(data.message);
-          });
-          return;
-        }
-        if (response.status === 200) {
+  const register = async () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async () => {
+        if (auth.currentUser) {
           props.setIsSignedIn(true);
-          navigation.navigate('AddHabit');
+          await setDoc(doc(db, 'users', auth.currentUser.uid), {
+            firstName,
+            lastName,
+            email,
+          });
+          navigation.navigate('Tabs');
         }
       })
+
       .catch(error => {
-        console.log(error);
         setErrorMessage(error.message);
       });
   };
@@ -61,15 +61,9 @@ export default (props: any) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text style={{textAlign: 'center'}}>Hello!</Text>
-      <Text
-        style={{
-          fontSize: fontSize.lg,
-          fontWeight: '300',
-          textAlign: 'center',
-          marginVertical: 20,
-        }}>
+    <>
+      <Text style={styles.heading}>Hello!</Text>
+      <Text style={styles.descriptionText}>
         If it's your first time, welcome! Create an account to log in. If not,
         sign in and get started!
       </Text>
@@ -109,25 +103,18 @@ export default (props: any) => {
         style={styles.button}
         onPress={() => {
           if (validateForm()) {
-            register_onClick();
+            register();
           }
         }}>
-        <Text style={{color: 'white', textAlign: 'center'}}>Register</Text>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text style={{textAlign: 'center', marginRight: 5}}>
-          Already have an account?
-        </Text>
+      <View style={styles.linkContainer}>
+        <Text style={styles.link}>Already have an account?</Text>
         <TouchableOpacity onPress={() => props.setRegisterSelected(false)}>
           <Text style={styles.smallText}>Sign In</Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 };
 
@@ -155,4 +142,28 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '100%',
   },
+  heading: {
+    textAlign: 'center',
+  },
+  descriptionText: {
+    fontSize: fontSize.lg,
+    fontWeight: '300',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  linkContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  link: {
+    textAlign: 'center',
+    marginRight: 5,
+  },
 });
+
+export default Register;

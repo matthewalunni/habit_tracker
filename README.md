@@ -43,7 +43,6 @@ A simple application for tracking and improving your daily habits. This is a hab
 - [Node.js](https://nodejs.org/en/)
 - [React Native](https://facebook.github.io/react-native/)
 - [D3.js](https://d3js.org/)
-- [Flask](http://flask.pocoo.org/)
 
 ## Contributing
 

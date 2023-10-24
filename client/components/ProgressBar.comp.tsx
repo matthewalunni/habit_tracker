@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import {
-  Alert,
   StyleSheet,
   View,
   Dimensions,
@@ -16,10 +15,12 @@ type Props = {
   habitName: string;
   bgColor: string; // background color of completed progress
   progress: number; // 0 - 100
+  onIncrement: () => void;
+  onDecrement: () => void;
 };
 
-export default (props: Props) => {
-  const {habitName, bgColor, progress} = props;
+const ProgressBar = (props: Props) => {
+  const {habitName, bgColor, progress, onIncrement, onDecrement} = props;
   const screenWidth = Dimensions.get('window').width;
   const fadeAnimation = useRef(new Animated.Value(0)).current;
   const width = useRef(new Animated.Value(0)).current;
@@ -50,7 +51,7 @@ export default (props: Props) => {
       width: screenWidth - padding.md * 2,
       height: 75,
       backgroundColor: shadeColor(bgColor, 15),
-      borderRadius: borderRadius.xl,
+      borderRadius: borderRadius.xl + 10,
       borderWidth: border.md,
       borderColor: shadeColor(bgColor, 15),
       marginTop: padding.sm,
@@ -59,7 +60,7 @@ export default (props: Props) => {
       height: '100%',
       width: `${progress}%`,
       backgroundColor: bgColor,
-      borderRadius: borderRadius.lg,
+      borderRadius: borderRadius.lg + 10,
       zIndex: 1,
       alignSelf: 'flex-start',
     },
@@ -106,7 +107,7 @@ export default (props: Props) => {
             underlayColor="transparent"
             color="white"
             style={styles.icon}
-            onPress={() => Alert.alert('This is a button!')}
+            onPress={onDecrement}
           />
           <Text style={styles.text}>{habitName}</Text>
           <Icon.Button
@@ -115,10 +116,12 @@ export default (props: Props) => {
             underlayColor="transparent"
             color="white"
             style={styles.icon}
-            onPress={() => Alert.alert('This is a button!')}
+            onPress={onIncrement}
           />
         </View>
       </Animated.View>
     </View>
   );
 };
+
+export default ProgressBar;

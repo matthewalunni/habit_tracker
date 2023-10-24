@@ -1,33 +1,30 @@
 import React, {useState} from 'react';
 import {Text, StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
 import {borderRadius, fontSize} from '../theme';
-import RoundInput from '../components/RoundInput';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {login} from '../api';
+import RoundInput from '../components/RoundInput.comp';
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../firebase/firebase-config';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-export default (props: any) => {
+type Props = {
+  setIsSignedIn: (arg0: boolean) => void;
+  setRegisterSelected: (arg0: boolean) => void;
+};
+
+const Login = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+  const {navigate} = useNavigation<StackNavigationProp<ParamListBase>>();
 
-  const logIn_onClick = () => {
-    login(email, password)
-      .then((response: Response) => {
-        if (!response.ok) {
-          response.json().then(data => {
-            Alert.alert(data.message);
-          });
-          return;
-        }
-        if (response.status === 200) {
-          props.setIsSignedIn(true);
-          navigation.navigate('Tabs');
-        }
+  const signIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        props.setIsSignedIn(true);
+        navigate('Tabs');
       })
       .catch(error => {
-        Alert.alert(error.message);
+        Alert.alert(error.message.toString());
       });
   };
 
@@ -44,15 +41,9 @@ export default (props: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={{textAlign: 'center'}}>Hello!</Text>
-      <Text
-        style={{
-          fontSize: fontSize.lg,
-          fontWeight: '300',
-          textAlign: 'center',
-          marginVertical: 20,
-        }}>
+    <>
+      <Text style={styles.header}>Hello!</Text>
+      <Text style={styles.descriptionText}>
         If it's your first time, welcome! Create an account to log in. If not,
         sign in and get started!
       </Text>
@@ -78,25 +69,18 @@ export default (props: any) => {
         style={styles.button}
         onPress={() => {
           if (validateForm()) {
-            logIn_onClick();
+            signIn();
           }
         }}>
-        <Text style={{color: 'white', textAlign: 'center'}}>Sign In</Text>
+        <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text style={[styles.smallText, {textAlign: 'center', marginRight: 5}]}>
-          Not a member?
-        </Text>
+      <View style={styles.centerRow}>
+        <Text style={[styles.smallText, styles.notAMember]}>Not a member?</Text>
         <TouchableOpacity onPress={() => props.setRegisterSelected(true)}>
           <Text>Register now</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -106,6 +90,10 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.lg,
     padding: 15,
     backgroundColor: 'tomato',
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
   },
   smallText: {
     fontSize: fontSize.sm,
@@ -126,4 +114,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
   },
+  centerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notAMember: {
+    textAlign: 'center',
+    marginRight: 5,
+  },
+  header: {
+    textAlign: 'center',
+  },
+  descriptionText: {
+    fontSize: fontSize.lg,
+    fontWeight: '300',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
 });
+
+export default Login;

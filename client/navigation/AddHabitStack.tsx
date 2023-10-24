@@ -1,11 +1,11 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Tabs from './Tabs';
-import AddHabit from '../screens/AddHabit';
+import AddHabitWalkthrough from './AddHabitWalkthrough';
 
 const Stack = createStackNavigator();
 
-export default () => {
+const AddHabitStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -16,8 +16,8 @@ export default () => {
         }}
       />
       <Stack.Screen
-        name="AddHabit"
-        component={AddHabit}
+        name="AddHabitWalkthrough"
+        component={AddHabitWalkthrough}
         options={{
           headerShown: false,
         }}
@@ -25,3 +25,5 @@ export default () => {
     </Stack.Navigator>
   );
 };
+
+export default AddHabitStack;

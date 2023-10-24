@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import ButtonSection from './ButtonSection';
+import ButtonSection from './ButtonSection.comp';
 import {curveBasis, line, scaleLinear, scaleTime} from 'd3';
 import {G, Line, Path, Svg} from 'react-native-svg';
 import {mixPath, parse, Path as RePath, ReText} from 'react-native-redash';
