@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, TextInputProps} from 'react-native';
-import {borderRadius} from '../theme';
+import {borderRadius, color} from '../theme';
 import Input from './Input.comp';
 
 const RoundInput = (props: TextInputProps) => {
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   round: {
     borderRadius: borderRadius.md,
     borderWidth: 1,
-    borderColor: 'tomato',
+    borderColor: color.primary,
     padding: 15,
     width: '100%',
   },

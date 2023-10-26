@@ -3,6 +3,7 @@ import {KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
 import {ScrollView} from 'react-native-gesture-handler';
+import {color} from '../theme';
 
 type LoginStackProps = {
   setIsSignedIn: (isSignedIn: boolean) => void;
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     paddingHorizontal: 30,
+    backgroundColor: color.background,
   },
   scrollContainer: {
     flexGrow: 1,

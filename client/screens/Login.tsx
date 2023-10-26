@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
-import {borderRadius, fontSize} from '../theme';
+import {StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
+import {borderRadius, color, fontSize} from '../theme';
 import RoundInput from '../components/RoundInput.comp';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../firebase/firebase-config';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import Text from '../components/Text.comp';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 type Props = {
   setIsSignedIn: (arg0: boolean) => void;
@@ -80,6 +82,12 @@ const Login = (props: Props) => {
           <Text>Register now</Text>
         </TouchableOpacity>
       </View>
+      <DateTimePicker
+        value={new Date()}
+        mode="datetime"
+        display="default"
+        onChange={() => {}}
+      />
     </>
   );
 };
@@ -89,10 +97,10 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: borderRadius.lg,
     padding: 15,
-    backgroundColor: 'tomato',
+    backgroundColor: color.primary,
   },
   buttonText: {
-    color: 'white',
+    color: color.background,
     textAlign: 'center',
   },
   smallText: {
@@ -105,7 +113,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: borderRadius.lg,
     borderWidth: 1,
-    borderColor: 'tomato',
+    borderColor: color.primary,
     padding: 15,
     width: '100%',
   },

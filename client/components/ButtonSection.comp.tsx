@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
 import {View, Pressable, Text, StyleSheet} from 'react-native';
+import {borderRadius, color} from '../theme';
 
 type ButtonSectionProps = {
   q1Tapped: () => void;
@@ -44,10 +45,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     height: 25,
     width: 75,
-    backgroundColor: 'tomato',
+    backgroundColor: color.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: borderRadius.md,
   },
   buttonText: {
     textAlign: 'center',

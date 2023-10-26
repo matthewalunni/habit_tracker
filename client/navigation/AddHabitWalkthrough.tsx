@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {
   NavigationProp,
@@ -6,6 +6,9 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import AddHabit from '../screens/AddHabit';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
+import {auth, db} from '../firebase/firebase-config';
+import {Habit} from '../types/Habit';
 
 export type Screen = {
   icon?: string;
@@ -39,6 +42,11 @@ const walkthroughScreens: Screen[] = [
 ];
 
 const AddHabitWalkthrough = () => {
+  const [habitName, setHabitName] = useState();
+  const [habitDescription, setHabitDescription] = useState();
+  const [habitFrequency, setHabitFrequency] = useState();
+  const [fieldValue, setFieldValue] = useState();
+  const [error, setError] = useState();
   const {navigate} = useNavigation<NavigationProp<ParamListBase>>();
   const slides = walkthroughScreens.map((screenSpec: Screen, index) => {
     return {
@@ -49,21 +57,67 @@ const AddHabitWalkthrough = () => {
     };
   });
 
+  const addHabit = (index: number) => {
+    switch (index) {
+      case 0:
+        setHabitName(fieldValue);
+        break;
+      case 1:
+        setHabitDescription(fieldValue);
+        break;
+      case 2:
+        setHabitFrequency(fieldValue);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const submitHabit = async () => {
+    const habit: Habit = {
+      name: habitName || 'habit',
+      description: habitDescription || 'description',
+      frequency: habitFrequency || 'frequency',
+      bgColor: '#219ebc',
+      startDate: new Date(),
+      completed: 0,
+    };
+
+    const userRef = doc(db, 'users', auth.currentUser!.uid);
+    const user = await getDoc(userRef);
+    const habits = user.data()?.habits;
+
+    habits.push(habit);
+
+    await updateDoc(userRef, {habits})
+      .then(() => {
+        navigate('Tabs');
+      })
+      .catch(e => {
+        setError(e);
+      });
+  };
+
   return (
     <AppIntroSlider
       data={slides}
       renderItem={({item}) => {
-        return <AddHabit item={item} index={0} />;
+        return (
+          <AddHabit
+            item={item}
+            index={0}
+            setFieldValue={setFieldValue}
+            error={error}
+          />
+        );
       }}
       showSkipButton={false}
       showPrevButton={true}
       showDoneButton={true}
       showNextButton={true}
-      onSlideChange={index => {
-        console.log(index);
-      }}
-      onDone={() => {
-        navigate('Tabs');
+      onSlideChange={addHabit}
+      onDone={async () => {
+        await submitHabit();
       }}
     />
   );

@@ -1,12 +1,13 @@
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import RoundInput from '../components/RoundInput.comp';
-import {borderRadius, fontSize} from '../theme';
+import {borderRadius, color, fontSize} from '../theme';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {doc, setDoc} from 'firebase/firestore';
 import {auth, db} from '../firebase/firebase-config';
+import Text from '../components/Text.comp';
 
 type RegisterProps = {
   setIsSignedIn: (isSignedIn: boolean) => void;
@@ -128,7 +129,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: borderRadius.lg,
     padding: 15,
-    backgroundColor: 'tomato',
+    backgroundColor: color.primary,
+    color: color.background,
   },
   smallText: {
     fontWeight: 'bold',

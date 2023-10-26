@@ -3,17 +3,12 @@ import {
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
-import {
-  KeyboardAvoidingView,
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-} from 'react-native';
+import {KeyboardAvoidingView, View, TextInput, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {border, fontSize, margin, padding} from '../theme';
+import {border, color, fontSize, margin, padding} from '../theme';
 import React from 'react';
 import {Screen} from '../navigation/AddHabitWalkthrough';
+import Text from '../components/Text.comp';
 
 const styles = StyleSheet.create({
   title: {
@@ -33,7 +28,7 @@ const styles = StyleSheet.create({
   textInput: {
     fontSize: fontSize.lg,
     textAlign: 'center',
-    color: 'tomato',
+    color: color.primary,
     padding: padding.sm,
     margin: margin.md,
     backgroundColor: 'white',
@@ -49,7 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'tomato',
+    backgroundColor: color.primary,
   },
   button: {
     fontSize: 18,
@@ -69,11 +64,13 @@ const styles = StyleSheet.create({
 type ScreenItem = {
   index: number;
   item: Screen;
+  setFieldValue: Function;
+  error?: string;
 };
 
 const AddHabit = (screenItem: ScreenItem) => {
   const {navigate} = useNavigation<NavigationProp<ParamListBase>>();
-  const {item} = screenItem;
+  const {item, setFieldValue, error} = screenItem;
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -89,10 +86,15 @@ const AddHabit = (screenItem: ScreenItem) => {
       {item.icon && <Icon name={item.icon} size={100} color={'white'} />}
       {/* if item.key_name is habit_frequency, then show a datepicker */}
 
+      {error && <Text style={styles.text}>{error}</Text>}
       <View>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.text}>{item.prompt_text}</Text>
-        <TextInput style={styles.textInput} placeholder={item.placeholder} />
+        <TextInput
+          style={styles.textInput}
+          placeholder={item.placeholder}
+          onChangeText={e => setFieldValue(e)}
+        />
       </View>
     </KeyboardAvoidingView>
   );

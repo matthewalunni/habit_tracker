@@ -1,15 +1,9 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Text,
-  Animated,
-  Easing,
-} from 'react-native';
+import {StyleSheet, View, Dimensions, Animated, Easing} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {border, borderRadius, padding} from '../theme';
 import {shadeColor} from '../utils';
+import Text from './Text.comp';
 
 type Props = {
   habitName: string;

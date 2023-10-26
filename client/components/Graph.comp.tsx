@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import Animated, {
   useAnimatedProps,
   useDerivedValue,
@@ -11,6 +11,8 @@ import ButtonSection from './ButtonSection.comp';
 import {curveBasis, line, scaleLinear, scaleTime} from 'd3';
 import {G, Line, Path, Svg} from 'react-native-svg';
 import {mixPath, parse, Path as RePath, ReText} from 'react-native-redash';
+import {color} from '../theme';
+import Text from './Text.comp';
 
 export type DataPoint = {
   date: string;
@@ -211,7 +213,7 @@ const LineChart: FC<LineChartProps> = ({
         <ReText style={styles.priceText} text={mostRecent} />
       </View>
       <Animated.View style={styles.chartContainer}>
-        <Svg width={width} height={height} stroke="tomato">
+        <Svg width={width} height={height} stroke={color.primary}>
           <G y={-bottomPadding}>
             <Line
               x1={leftPadding}

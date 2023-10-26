@@ -2,10 +2,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Home from '../screens/Home';
 import Settings from '../screens/Settings';
 import Metrics from '../screens/Metrics';
 import React from 'react';
+import {color as themeColor} from '../theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,14 +19,28 @@ export default () => {
       initialRouteName="Home"
       screenOptions={{
         headerShown: true,
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: themeColor.secondary,
+        tabBarInactiveTintColor: themeColor.primary,
+        tabBarStyle: {
+          backgroundColor: themeColor.background,
+          borderTopColor: themeColor.secondary,
+        },
+        headerStyle: {
+          backgroundColor: themeColor.background,
+          shadowColor: 'transparent',
+        },
+        headerTitleStyle: {
+          color: themeColor.secondary,
+        },
       }}>
       <Tab.Screen
         name="Metrics"
         component={Metrics}
         options={{
           headerShown: false,
+          tabBarIcon: ({color}) => (
+            <Icon name="bar-chart" size={20} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -33,20 +49,30 @@ export default () => {
         options={{
           headerRight(_props) {
             return (
-              <Icon.Button
+              <FontAwesome5.Button
                 name="plus"
                 backgroundColor="transparent"
                 underlayColor="transparent"
-                color="tomato"
+                size={30}
+                color={themeColor.primary}
                 onPress={() => {
-                  navigate('AddHabitWalkthrough');
+                  navigate('Add');
                 }}
               />
             );
           },
+          tabBarIcon: ({color}) => (
+            <Icon name="tasks" size={20} color={color} />
+          ),
         }}
       />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="gear" size={20} color={color} />,
+        }}
+      />
     </Tab.Navigator>
   );
 };
